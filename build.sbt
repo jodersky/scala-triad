@@ -52,7 +52,7 @@ lazy val common = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     scalaVersion := "2.11.12",
     nativeLinkStubs := true,
     libraryDependencies ++= Seq(
-      "io.crashbox" %%% "commando" % "0.1.1"
+      "io.crashbox" %%% "commando" % "0.1.2"
     ),
     sourceGenerators in Compile += Def.task {
       import sys.process._
@@ -98,6 +98,7 @@ lazy val client = project
   .settings(
     scalaVersion := "2.11.12",
     nativeMode := "debug",
+    name := "triad"
   )
   .dependsOn(commonNative)
 
