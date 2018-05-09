@@ -22,6 +22,9 @@ case class Message(content: String,
     Message.bytesToHex(digest.digest())
   }
 
+  def hashTags: Seq[String] =
+    content.split("\\s").filter(_.startsWith("#")).map(_.drop(1))
+
 }
 
 object Message {

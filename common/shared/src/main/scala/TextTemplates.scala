@@ -6,6 +6,9 @@ object TextTemplates extends Templates(scalatags.Text) {
   def scripts(js: Boolean = true) =
     if (js)
       Seq(
+        div(id := "scalajs-error", style := "display: none;")(
+          "ScalaJS raised an exception. See the log for more information."
+        ),
         script(`type` := "text/javascript",
                src := "/assets/ui/js/ui-fastopt.js"),
         script(`type` := "text/javascript")(
@@ -25,7 +28,7 @@ object TextTemplates extends Templates(scalatags.Text) {
                |    triad.Main().main(root)
                |  } catch(ex) {
                |    // display warning message in case of exception
-               |    //document.getElementById("scalajs-error").style.display = "block";
+               |    document.getElementById("scalajs-error").style.display = "block";
                |    throw ex;
                |  }
                |});
@@ -36,7 +39,22 @@ object TextTemplates extends Templates(scalatags.Text) {
     else Seq.empty
 
   def page(messages: Seq[Message], js: Boolean = true) = html(
-    head(),
+    head(
+      link(rel := "stylesheet",
+           `type` := "text/css",
+           href := "/assets/lib/bootstrap-4.1.0/css/bootstrap-reboot.min.css"),
+      link(rel := "stylesheet",
+           `type` := "text/css",
+           href := "/assets/lib/bootstrap-4.1.0/css/bootstrap-grid.min.css"),
+      link(rel := "stylesheet",
+           `type` := "text/css",
+           href := "/assets/lib/bootstrap-4.1.0/css/bootstrap.min.css"),
+      link(rel := "stylesheet",
+           `type` := "text/css",
+           href := "/assets/main.css"),
+      meta(name := "viewport",
+           content := "width=device-width, initial-scale=1, shrink-to-fit=no")
+    ),
     body(
       conversation(messages),
       scripts(js)

@@ -1,7 +1,12 @@
 package triad
 
 import akka.NotUsed
-import akka.stream.scaladsl.{BroadcastHub, Keep, Source, SourceQueueWithComplete}
+import akka.stream.scaladsl.{
+  BroadcastHub,
+  Keep,
+  Source,
+  SourceQueueWithComplete
+}
 import akka.stream.{Materializer, OverflowStrategy}
 
 class LiveMessages(implicit materializer: Materializer) {

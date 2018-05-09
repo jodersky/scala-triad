@@ -23,6 +23,6 @@ object Main extends App {
 
   Await.result(repository.database.run(repository.initAction), 10.seconds)
 
-  Await.result(Http().bindAndHandle(routes.all, "localhost", 9090), 10.seconds)
+  Await.result(Http().bindAndHandle(routes.all, "0.0.0.0", 9090), 10.seconds)
 
 }
