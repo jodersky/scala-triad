@@ -10,7 +10,7 @@ object TextTemplates extends Templates(scalatags.Text) {
           "ScalaJS raised an exception. See the log for more information."
         ),
         script(`type` := "text/javascript",
-               src := "/assets/ui/js/ui-fastopt.js"),
+               src := "/out.js"),
         script(`type` := "text/javascript")(
           raw(
             """|document.addEventListener("DOMContentLoaded", function(event) {

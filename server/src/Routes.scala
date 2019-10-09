@@ -73,6 +73,8 @@ class Routes(repository: Repository, liveMessages: LiveMessages) {
 
   val assets = pathPrefix("assets") {
     getFromResourceDirectory("assets")
+  } ~ path("out.js") {
+    getFromResource("out.js")
   }
 
   def all = messages ~ ui ~ live ~ assets
