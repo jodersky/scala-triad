@@ -9,23 +9,23 @@ trait Shared extends ScalaModule with ScalafmtModule{
   )
 
   def ivyDeps = Agg(
-    ivy"xyz.driver::spray-json-derivation::0.4.3",
-    ivy"com.lihaoyi::scalatags::0.6.7"
+    ivy"io.crashbox::spray-json::1.3.5-6",
+    ivy"com.lihaoyi::scalatags::0.7.0"
   )
 
 }
 
 object server extends ScalaModule with Shared {
-  def scalaVersion = "2.12.9"
+  def scalaVersion = "2.13.1"
 
   def ivyDeps = T {
     super.ivyDeps() ++ Agg(
-      ivy"com.typesafe.akka::akka-stream:2.5.11",
-      ivy"com.typesafe.akka::akka-http:10.1.0",
-      ivy"com.typesafe.akka::akka-http-spray-json:10.1.0",
-      ivy"com.typesafe.slick::slick:3.2.3",
+      ivy"com.typesafe.akka::akka-stream:2.5.25",
+      ivy"com.typesafe.akka::akka-http:10.1.10",
+      ivy"com.typesafe.akka::akka-http-spray-json:10.1.10",
+      ivy"com.typesafe.slick::slick:3.3.2",
       ivy"org.slf4j:slf4j-nop:1.6.4",
-      ivy"org.xerial:sqlite-jdbc:3.21.0.1"
+      ivy"org.xerial:sqlite-jdbc:3.28.0"
     )
   }
 
@@ -38,12 +38,12 @@ object server extends ScalaModule with Shared {
 }
 
 object ui extends ScalaJSModule with Shared {
-  def scalaVersion = "2.12.10"
+  def scalaVersion = "2.13.1"
   def scalaJSVersion = "0.6.29"
 
   def ivyDeps = T {
     super.ivyDeps() ++ Agg(
-      ivy"org.scala-js::scalajs-dom::0.9.5",
+      ivy"org.scala-js::scalajs-dom::0.9.7",
       ivy"org.scala-js::scalajs-java-time::0.2.5"
     )
   }
