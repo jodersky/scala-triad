@@ -1,7 +1,8 @@
 package triad
 
 class Templates[Builder, Output <: FragT, FragT](
-    val bundle: scalatags.generic.Bundle[Builder, Output, FragT]) {
+    val bundle: scalatags.generic.Bundle[Builder, Output, FragT]
+) {
   import bundle.all._
 
   val colorStyles = List(
@@ -20,7 +21,8 @@ class Templates[Builder, Output <: FragT, FragT](
         (hash * 31 + char.toInt)
     }
     colorStyles(
-      ((dataHash % colorStyles.length) + colorStyles.length) % colorStyles.length)
+      ((dataHash % colorStyles.length) + colorStyles.length) % colorStyles.length
+    )
   }
 
   def message(msg: Message) = {
@@ -28,7 +30,8 @@ class Templates[Builder, Output <: FragT, FragT](
       hashTag =>
         span(`class` := "badge badge-light float-right ml-1")(
           hashTag
-      ))
+        )
+    )
     div(`class` := "col-xs-12 col-sm-6 col-md-3 col-lg-2")(
       div(`class` := s"card text-white mb-3 ${dataStyle(msg.author)}")(
         div(`class` := "card-header")(

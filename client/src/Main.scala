@@ -27,10 +27,12 @@ object Main {
 
       val message = Message(content, author).toJson.compactPrint
 
-      val req = Request("POST",
-                        s"$server/messages",
-                        Map("Content-type" -> "application/json"),
-                        message.getBytes("utf-8"))
+      val req = Request(
+        "POST",
+        s"$server/messages",
+        Map("Content-type" -> "application/json"),
+        message.getBytes("utf-8")
+      )
 
       if (verbose) {
         System.err.println(req.url)
@@ -43,7 +45,8 @@ object Main {
             sys.exit(0)
           case resp =>
             System.err.println(
-              s"Bad response code while posting message ${resp.statusCode}.")
+              s"Bad response code while posting message ${resp.statusCode}."
+            )
             sys.exit(1)
         }
       } catch {

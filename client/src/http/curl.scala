@@ -59,15 +59,19 @@ object curl {
 
   def curl_easy_init(): CURL = extern
 
-  def curl_easy_setopt(curl: CURL,
-                       option: CURLoption,
-                       parameter: CVararg*): CURLcode = extern
+  def curl_easy_setopt(
+      curl: CURL,
+      option: CURLoption,
+      parameter: CVararg*
+  ): CURLcode = extern
 
   def curl_easy_perform(curl: CURL): CURLcode = extern
 
-  def curl_easy_getinfo(curl: CURL,
-                        option: CURLINFO,
-                        parameter: CVararg*): CURLcode = extern
+  def curl_easy_getinfo(
+      curl: CURL,
+      option: CURLINFO,
+      parameter: CVararg*
+  ): CURLcode = extern
 
   def curl_easy_cleanup(curl: CURL): Unit = extern
 

@@ -42,7 +42,8 @@ trait XhrBackend extends Backend {
     }
     xhr.ontimeout = (e: Event) => {
       promise.failure(
-        new TimeoutException(s"Request timed out: ${xhr.statusText}"))
+        new TimeoutException(s"Request timed out: ${xhr.statusText}")
+      )
     }
 
     promise.future

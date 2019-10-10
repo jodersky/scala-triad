@@ -3,9 +3,11 @@ package triad
 import java.security.MessageDigest
 import java.time.Instant
 
-case class Message(content: String,
-                   author: String,
-                   timestamp: Instant = Instant.now()) {
+case class Message(
+    content: String,
+    author: String,
+    timestamp: Instant = Instant.now()
+) {
 
   lazy val id: String = {
     val digest = MessageDigest.getInstance("SHA-256")

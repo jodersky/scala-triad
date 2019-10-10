@@ -32,8 +32,10 @@ object CurlBackend {
 
     def allocHead() = allocAppend(0, NullPtr[Chunk])
 
-    def allocAppend(size: CSize,
-                    head: Ptr[Chunk] = NullPtr[Chunk]): Ptr[Chunk] = {
+    def allocAppend(
+        size: CSize,
+        head: Ptr[Chunk] = NullPtr[Chunk]
+    ): Ptr[Chunk] = {
       val chunk: Ptr[Chunk] = stdlib.malloc(sizeof[Chunk]).cast[Ptr[Chunk]]
       if (chunk == NullPtr[Chunk]) return NullPtr[Chunk]
 
@@ -73,7 +75,7 @@ object CurlBackend {
       var chunk = head
       do {
         val next = chunk.next
-        var i = 0l
+        var i = 0L
         while (i < next.size) {
           buffer += next.buffer(i)
           i += 1
@@ -88,7 +90,7 @@ object CurlBackend {
       do {
         val next = chunk.next
         val buffer = new ArrayBuffer[Byte]()
-        var i = 0l
+        var i = 0L
         while (i < next.size) {
           buffer += next.buffer(i)
           i += 1
@@ -100,10 +102,12 @@ object CurlBackend {
 
   }
 
-  private def receive(data: Ptr[Byte],
-                      size: CSize,
-                      nmemb: CSize,
-                      userdata: Ptr[Byte]): CSize = {
+  private def receive(
+      data: Ptr[Byte],
+      size: CSize,
+      nmemb: CSize,
+      userdata: Ptr[Byte]
+  ): CSize = {
     val head = userdata.cast[Ptr[Chunk]]
     val length = size * nmemb
     val chunk = Chunk.allocAppend(length, head)
@@ -135,19 +139,25 @@ object CurlBackend {
         () =>
           curl_easy_setopt(curl, CURLoption.CURLOPT_ERRORBUFFER, errorBuffer),
         () =>
-          curl_easy_setopt(curl,
-                           CURLoption.CURLOPT_CUSTOMREQUEST,
-                           toCString(request.method)),
+          curl_easy_setopt(
+            curl,
+            CURLoption.CURLOPT_CUSTOMREQUEST,
+            toCString(request.method)
+          ),
         () =>
-          curl_easy_setopt(curl,
-                           CURLoption.CURLOPT_URL,
-                           toCString(request.url)),
+          curl_easy_setopt(
+            curl,
+            CURLoption.CURLOPT_URL,
+            toCString(request.url)
+          ),
         () => {
           val buffer = ArrayUtils.toBuffer(request.body)
           curl_easy_setopt(curl, CURLoption.CURLOPT_POSTFIELDS, buffer)
-          curl_easy_setopt(curl,
-                           CURLoption.CURLOPT_POSTFIELDSIZE,
-                           request.body.size)
+          curl_easy_setopt(
+            curl,
+            CURLoption.CURLOPT_POSTFIELDSIZE,
+            request.body.size
+          )
         },
         () => {
           for ((k, v) <- request.headers) {
@@ -161,9 +171,11 @@ object CurlBackend {
         () =>
           curl_easy_setopt(curl, CURLoption.CURLOPT_WRITEDATA, responseChunks),
         () =>
-          curl_easy_setopt(curl,
-                           CURLoption.CURLOPT_HEADERDATA,
-                           responseHeaderChunks),
+          curl_easy_setopt(
+            curl,
+            CURLoption.CURLOPT_HEADERDATA,
+            responseHeaderChunks
+          ),
         () => curl_easy_perform(curl)
       )
 
@@ -186,13 +198,16 @@ object CurlBackend {
               statusCode = (!responseCode).toInt,
               headers = responseHeaders.toMap,
               body = Chunk.toArray(responseChunks)
-            ))
+            )
+          )
 
         case code =>
           val message = curl_easy_strerror(curl, code)
           Failure(
             new RuntimeException(
-              s"${fromCString(errorBuffer)} (curl exit status $code)"))
+              s"${fromCString(errorBuffer)} (curl exit status $code)"
+            )
+          )
       }
       Chunk.freeAll(responseChunks)
       Chunk.freeAll(responseHeaderChunks)
