@@ -25,12 +25,11 @@ class Routes(repository: Repository, liveMessages: LiveMessages) {
 
   private val lastMessages = repository.Messages.take(100).result
 
-  private val messageStream: Source[Message, _] = {
-    val publisher = repository.database.stream(lastMessages)
+  // stream persisted messages first, followed by live ones
+  private val messageStream: Source[Message, _] =
     Source
-      .fromPublisher(publisher)
+      .fromPublisher(repository.database.stream(lastMessages))
       .concat(liveMessages.feed)
-  }
 
   val messages = path("messages") {
     get {

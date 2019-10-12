@@ -7,8 +7,10 @@ import akka.stream.scaladsl.{
   Source,
   SourceQueueWithComplete
 }
-import akka.stream.{Materializer, OverflowStrategy}
+import akka.stream.{Materializer, OverflowStrategy, QueueOfferResult}
+import scala.concurrent.Future
 
+/** A very basic streaming message router. */
 class LiveMessages(implicit materializer: Materializer) {
 
   private val (
@@ -19,7 +21,10 @@ class LiveMessages(implicit materializer: Materializer) {
     .toMat(BroadcastHub.sink[Message])(Keep.both)
     .run()
 
-  def push(message: Message) = in.offer(message)
-  def feed = out
+  /** Push a single message into the stream. */
+  def push(message: Message): Future[QueueOfferResult] = in.offer(message)
+
+  /** Obtain a stream of the message feed. */
+  def feed: Source[Message, NotUsed] = out
 
 }

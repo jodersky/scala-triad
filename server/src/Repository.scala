@@ -4,6 +4,7 @@ import java.time.Instant
 
 import slick.jdbc.{JdbcProfile, SQLiteProfile}
 
+/** Slick wrapper around the persisted message database. */
 class Repository(val profile: JdbcProfile, url: String, driver: String) {
   val database: profile.backend.DatabaseDef =
     profile.api.Database.forURL(url, driver)
